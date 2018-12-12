@@ -40,7 +40,7 @@ void zaustavi(){
 
 
 void *posjetitelj_dretva(void *x){
-	int id = *((int *)x) % 10 + 1;
+	int id = *((int *)x) % slobodno + 1;
 	sem_wait (&vrtuljak);
 	sleep(1);
 	sjedni(id);

@@ -68,14 +68,11 @@ int main(void){
 
 	pthread_t filozofi[100];
 
-	printf("prije otvaranja dat\n");
 	FILE *text;
     text = fopen("dat.txt", "r+");
 
-    printf("poslije otvaranja dat\n");
     int brojac = 0;
 
-    //fscanf(text, "%d %d", &broj_stapica, &broj_filozofa);
     while(fscanf(text, "%d", &polje[brojac]) !=EOF){
     	brojac++;
     }
@@ -92,8 +89,6 @@ int main(void){
     	printf("iniciajliziranje reda uvjeta trgova nije uspjelo\n");
     	return 1;
     }
-
-    printf("prije for 1 %d %d \n", broj_stapica, broj_filozofa);
 
     for(int i = 0; i < broj_filozofa; ++i) {
        	if (pthread_create(filozofi+i, NULL, proces_dretva, &polje[i+2])) {
