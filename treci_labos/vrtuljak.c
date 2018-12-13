@@ -11,6 +11,8 @@
 #define PROLAZAN 1
 #define NEPROLAZAN 0
 
+int brojac=0;
+
 int slobodno, broj_ljudi;
 sem_t vrtuljak, sjeo, kraj, sisao;
 
@@ -42,16 +44,16 @@ void zaustavi(){
 void *posjetitelj_dretva(void *x){
 	int id = *((int *)x) % slobodno + 1;
 	sem_wait (&vrtuljak);
-	sleep(1);
+	//usleep(45000);
 	sjedni(id);
-	sleep(1);
+	//usleep(45000);
 	sem_post(&sjeo);
 	sem_wait(&kraj);
-	sleep(1);
+	//usleep(45000);
 	ustani(id);
-	sleep(1);
+	//usleep(45000);
 	sidi(id);
-	sleep(1);
+	//usleep(45000);
 	sem_post(&sisao);
 
 }
@@ -60,17 +62,17 @@ void *vrtuljak_dretva(){
 	int i = 0;
 	while(1){
 		for(i = 0; i < slobodno; ++i){
-			sleep(1);
+			//usleep(45000);
 			sem_post(&vrtuljak);
 		}
 		for(i = 0; i < slobodno; ++i){
 			sem_wait(&sjeo);
 		}
 		pokreni();
-		sleep(2);
+		//sleep(1);
 		zaustavi();
 		for (i = 0; i < slobodno; ++i){
-			sleep(1);
+			//usleep(45000);
 			sem_post(&kraj);
 		}
 		for (i = 0; i < slobodno; ++i){
@@ -102,6 +104,7 @@ int main(int argc, char** argv){
 		pthread_create(posjetitelji_id+i, NULL, posjetitelj_dretva, &i);
 		vrijeme = rand() % (45000+1-1000)+1000; 
 		usleep(vrijeme);
+		brojac++;
 	}
 
 	for (int i = 0; i < 100; ++i){
